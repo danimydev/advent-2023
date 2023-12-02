@@ -45,53 +45,19 @@ pub fn problem_2() -> usize {
 }
 
 fn get_decoded_number_with_words(word: &str) -> usize {
-    let pattern = r"(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|\d+)";
-    let regex = Regex::new(pattern).unwrap();
+    let digit_regex = Regex::new(r"\d").unwrap();
+    let mut parsed = String::from(word);
+    parsed = parsed.replace("one", "o1e");
+    parsed = parsed.replace("two", "t2o");
+    parsed = parsed.replace("three", "t3e");
+    parsed = parsed.replace("four", "4");
+    parsed = parsed.replace("five", "5e");
+    parsed = parsed.replace("six", "6");
+    parsed = parsed.replace("seven", "7n");
+    parsed = parsed.replace("eight", "8");
+    let parsed = parsed.replace("nine", "n9e");
 
-    let matches: Vec<&str> = regex.find_iter(word).map(|m| m.as_str()).collect();
-    println!("{:?}", matches);
-    if matches.len() == 1 {
-        let decoded = digit_name_to_int(matches[0]).unwrap();
-        if decoded > 10 {
-            let decoded_str = decoded.to_string();
-            return format!(
-                "{}{}",
-                decoded_str.chars().nth(0).unwrap(),
-                decoded_str.chars().nth(decoded_str.len() - 1).unwrap()
-            )
-            .parse()
-            .unwrap();
-        }
-        return format!("{}{}", decoded, decoded).parse().unwrap_or(0);
-    }
+    let matches: Vec<&str> = digit_regex.find_iter(&parsed).map(|m| m.as_str()).collect();
 
-    let mut first_int: u32 = digit_name_to_int(matches[0]).unwrap();
-    if first_int > 10 {
-        first_int = format!("{}", first_int.to_string().chars().nth(0).unwrap(),)
-            .parse()
-            .unwrap()
-    }
-
-    let mut last_int: u32 = digit_name_to_int(matches[matches.len() - 1]).unwrap();
-    if last_int > 10 {
-        last_int %= 10;
-    }
-
-    let decoded_number_str = format!("{}{}", first_int, last_int);
-    return decoded_number_str.parse().unwrap_or(0);
-}
-
-fn digit_name_to_int(digit_name: &str) -> Option<u32> {
-    match digit_name.to_lowercase().as_str() {
-        "one" => Some(1),
-        "two" => Some(2),
-        "three" => Some(3),
-        "four" => Some(4),
-        "five" => Some(5),
-        "six" => Some(6),
-        "seven" => Some(7),
-        "eight" => Some(8),
-        "nine" => Some(9),
-        _ => Some(digit_name.parse().unwrap_or(0)),
-    }
+    return format!("{}{}", matches[0], matches[matches.len() - 1]).parse().unwrap();
 }
