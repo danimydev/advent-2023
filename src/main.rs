@@ -1,6 +1,7 @@
 mod day_1;
 mod day_2;
 mod day_3;
+mod day_4;
 
 fn main() {
     let problem_1_1 = day_1::problem_1();
@@ -20,4 +21,7 @@ fn main() {
 
     let problem_3_2 = day_3::problem_2();
     println!("3_2: {}", problem_3_2);
+
+    let problem_4_1 = day_4::problem_1();
+    println!("4_1: {}", problem_4_1);
 }
