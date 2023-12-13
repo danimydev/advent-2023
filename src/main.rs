@@ -24,4 +24,7 @@ fn main() {
 
     let problem_4_1 = day_4::problem_1();
     println!("4_1: {}", problem_4_1);
+
+    let problem_4_2 = day_4::problem_2();
+    println!("4_2: {}", problem_4_2);
 }
